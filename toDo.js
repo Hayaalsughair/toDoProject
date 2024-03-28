@@ -1,67 +1,76 @@
-// Enter his/her name
-var userName = prompt("Please enter your name:");
+"use strict";
 
-// Gender
-var userGender = prompt("Please select your gender:");
+// Get user name
+var userName = prompt("What's your name?");
 
-// Age
-var userAge = parseInt(prompt("Please enter your age:"));
+// Get user gender
+var userGender = prompt("What's your gender? (Female/Male) ");
 
-// Yes/No Question 
-/*
-var enrolled = prompt("Are you enrolled in .NET course? (Yes/No)").toLowerCase();
+// Get user age (with basic validation)
+var userAge;
+while (true) {
+  var userInput = prompt("How old are you? (Numbers only please)");
+  userAge = parseInt(userInput);
 
-var isEnrolled;
+  // Basic check for number
+  if (isNaN(userAge)) {
+    alert("Please enter a number for your age.");
+  } else if (userAge <= 0) {
+    alert("Age must be a positive number. Please try again.");
+  } else {
 
-    switch (enrolled) {
-        case "yes":
-            isEnrolled = true;
-            break;
-        case "no":
-            isEnrolled = false;
-            break;
-        default:
-            alert("Invalid response. Please answer Yes or No.");
+    break;
+  }
+}
 
-            break;
-    }*/
 
-// Function to insure input
-function yesNoQuestion(question) {
+// Function to ask Yes/No questions 
+function askYesNo(question) {
     while (true) {
-        var response = prompt(question + " (Yes/No)").toLowerCase();
-        if (response === "yes" || response === "no") {
-            return response;
-        }
-        alert("Invalid input. Please answer Yes or No.");
+      const answer = prompt(question + " (Yes/No)");
+      // That handle Upper case & Lowe case 
+      if (answer.toLowerCase() === "yes" || answer.toLowerCase() === "no") {
+        return answer; 
+      } else if (answer === "") {
+        alert("Please answer Yes or No."); 
+        // Handle empty input
+      } else {
+        alert("Invalid answer. Please answer Yes or No.");
+      }
     }
+  }
+  
+
+// some yes/no qusetion about .net course
+var isEnrolledDotNet = askYesNo("Are you enrolled in a .NET course?");
+var hasExperience = askYesNo("Do you have any programming experience?");
+var prefersOnline = askYesNo("Do you prefer learning online?");
+
+// stor answers in an array 
+var allAnswers = [];
+allAnswers.push("Name: " + userName);
+allAnswers.push("Gender: " + userGender);
+allAnswers.push("Age: " + userAge);
+allAnswers.push(".NET Course: " + isEnrolledDotNet);
+allAnswers.push("Programming Experience: " + hasExperience);
+allAnswers.push("Prefers Online Learning: " + prefersOnline);
+
+// print answers 
+console.log("Here are the answers:");
+for (var i = 0; i < allAnswers.length; i++) {
+  console.log(allAnswers[i]);
 }
 
-// Yes/No Question
-var isEnrolled = yesNoQuestion("Are you enrolled in .NET course ?");
+// skip welcome message
+var skipWelcome = confirm("Do you want to skip the welcome message?");
 
-
-// Verify age
-if (userAge <= 0) {
-    alert("Please enter a valid age.");
-}
-
-// Skip the welcoming message
-var skipMessage = confirm("Do you want to skip the welcoming message?");
-
-// Check the user's gender and display a welcoming message accordingly
-if (userGender.toLowerCase() === "male") {
-    if (skipMessage) {
-        alert("Welcome, " + userName + "!");
-    } else {
-        alert("Welcome, Mr. " + userName + "!");
-    }
-} else if (userGender.toLowerCase() === "female") {
-    if (skipMessage) {
-        alert("Welcome, " + userName + "!");
-    } else {
-        alert("Welcome, Ms. " + userName + "!");
-    }
-} else {
-    alert("Welcome, " + userName + "!");
+// put Ms || Mr after the name  
+if (!skipWelcome) {
+  var title = "Hey ";
+  if (userGender.toLowerCase() === "male") {
+    title = "Welcome, Mr. ";
+  } else if (userGender.toLowerCase() === "female") {
+    title = "Welcome, Ms. ";
+  }
+  alert(title + userName + "!");
 }
